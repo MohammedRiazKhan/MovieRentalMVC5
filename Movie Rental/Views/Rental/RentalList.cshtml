@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Movie_Rental.Models.Rental>
+@{
+    ViewBag.Title = "RentalList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rentals</h2>
+<hr />
+
+<p>
+    @Html.ActionLink("New Rental", "NewRental", "Rental", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (!Model.Any())
+{
+    <p>No Rentals yet</p>
+}
+else
+{
+    <table id="rentals" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Rental ID</th>
+                <th>Rent Date</th>
+                <th>Return Date</th>
+                <th>Customer ID</th>
+                <th>Movie ID</th>
+                <th>Return</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var rental in Model)
+            {
+            <tr>
+                <td>@rental.RentalId</td>
+                <td>@rental.DateRented</td>
+                <td>@rental.DateReturned</td>
+                <td>@rental.CustomerId</td>
+                <td>@rental.MovieId</td>
+                <td>
+                    <a href="javascript:;" id="returnLink" onclick="returnRental(@rental.RentalId)" class="btn-link">Return</a>
+                </td>
+
+            </tr>
+            }
+
+        </tbody>
+
+
+    </table>
+}
+
+@section scripts
+    {
+    <script>
+
+
+        function returnRental(num, link) {
+
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to return this movie?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("ReturnRental", "Rental")',
+                            data: { id: num },
+                            type: "GET",
+                            success: function () {
+
+                               
+                                location.reload(true);
+                                toastr.success("Movie Successfully Returned"); 
+                                
+                            }
+                        });
+                    }
+                });
+
+        }
+
+       
+        $(document).ready(function () {
+
+            var table =  $("#rentals").DataTable();
+
+               
+        });
+
+    </script>
+}
+
+

@@ -1,0 +1,61 @@
+﻿@model Movie_Rental.ViewModels.CustomerFormViewModel
+@{
+    ViewBag.Title = Model.TitleOfPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="formContainer">
+   
+    <h2 class="h2-heads">Add New Customer</h2>
+   <br />
+    @using (Html.BeginForm("Save", "Customer")) 
+    {
+    
+
+        <div class="form-group">
+            <label for="FirstName">First Name</label>
+            @Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.FirstName)
+        </div>
+
+        <div class="form-group">
+            <label for="LastName">Last Name</label>
+            @Html.TextBoxFor(m => m.Customer.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.LastName)
+        </div>
+
+        <div class="form-group">
+            <label for="PhoneNumber">Phone Number</label>
+            @Html.TextBoxFor(m => m.Customer.PhoneNumber, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Customer.PhoneNumber)
+        </div>
+
+        <!----<div class="form-group">
+            <label>Account Type</label>
+            @Html.DropDownList("Account Types", new List<SelectListItem>
+            {
+
+                new SelectListItem { Text="Credit", Value="1"},
+                new SelectListItem { Text="Cash", Value="2"}
+
+            }, new { @class = "form-control"})
+        </div>-->
+
+ 
+
+      
+        <br />
+        @Html.HiddenFor(m => m.Customer.CustomerId)
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Save</button>
+
+
+
+
+    }
+</div>
+@section scripts{
+    
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

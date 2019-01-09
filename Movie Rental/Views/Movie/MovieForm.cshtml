@@ -1,0 +1,65 @@
+﻿@model Movie_Rental.ViewModels.MovieFormViewModel
+@{
+    ViewBag.Title = Model.TitleOfPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Save", "Movie"))
+{
+
+<div class="formContainer">
+
+    <h2>Add New Movie</h2>
+    <br />
+    <div class="form-group">
+        <label for="Title">Title</label>
+        @Html.TextBoxFor(m => m.Movie.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Title)
+    </div>
+
+    
+   <!--- <div class="form-group">
+        <label for="Genre">Genre</label>
+        @Html.TextBoxFor(m => m.Movie.Genre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Genre)
+
+    </div>-->
+
+    <div class="form-group">
+        <label>Genre</label>
+        @Html.DropDownListFor(m => m.Movie.Genre, new List<SelectListItem>
+        {
+
+            new SelectListItem() { Text=" ", Value=" "},
+            new SelectListItem() { Text="Action", Value="Action"},
+            new SelectListItem() { Text="Sci-Fi", Value="Sci-Fi"},
+            new SelectListItem() { Text="Comedy", Value="Comedy"},
+            new SelectListItem() { Text="Romance", Value="Romance"},
+            new SelectListItem() { Text="Horror", Value="Horror"}
+
+
+        }, new { @class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Movie.Genre)
+    </div>
+
+    <!---<div class="form-group">
+        <label for="Price">Price</label>
+        @Html.TextBoxFor(m => m.Movie.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.Price)
+    </div>-->
+
+    <div class="form-group">
+        <label for="ReleaseYear">Release Year</label>
+        @Html.TextBoxFor(m => m.Movie.ReleaseYear, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Movie.ReleaseYear)
+    </div>
+
+    <br />
+    @Html.HiddenFor(m => m.Movie.MovieId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+</div>
+
+}
+
+

@@ -1,0 +1,38 @@
+﻿@model Movie_Rental.ViewModels.RentalFormViewModel
+@{
+    /**/
+
+    ViewBag.Title = Model.TitleOfPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("Save", "Rental"))
+{
+<div class="formContainer">
+    <h2>Add New Rental</h2>
+    <br />
+    <div class="form-group">
+        <label for="Customer">Customer</label>
+        @Html.DropDownList("Cus", new SelectList(Model.Customers, "CustomerId", "FirstName"), "Select Customer", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Rental.CustomerId)
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="Movie">Movies</label>
+        @Html.DropDownList("Mov", new SelectList(Model.Movies, "MovieId", "Title"), "Select Movie", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Rental.MovieId)
+    </div>
+    <br />
+    @Html.HiddenFor(m => m.Rental.RentalId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+
+
+</div>
+    
+}
+
+
+

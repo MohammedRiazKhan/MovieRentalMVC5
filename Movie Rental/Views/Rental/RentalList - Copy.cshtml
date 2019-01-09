@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Movie_Rental.Models.Rental>
+@{
+    ViewBag.Title = "RentalList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rental</h2>
+
+<p>
+    @Html.ActionLink("New Rental", "NewRental", "Rental", null, new { @class = "btn btn-primary" })
+</p>
+
+
+@if (!Model.Any())
+{
+    <p>No Rentals yet</p>
+}
+else
+{
+    <table id="rentals" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Rental ID</th>
+                <th>Date Rented</th>
+                <th>Date Returned</th>
+                <th>Customer</th>
+                <th>Movies</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var rental in Model)
+            {
+                <tr>
+                    <td>@rental.RentalId</td>
+                    <td>@rental.DateRented</td>
+                    <td>@rental.DateReturned</td>
+                    <td>@rental.Customer</td>
+                    <td>@rental.Movie</td>
+                  
+                </tr>
+            }
+
+        </tbody>
+
+
+    </table>
+}
+
+@section scripts
+    {
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#rentals").DataTable();
+
+            $("#rentals .js-delete").on("click", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
+
+                    if (result) {
+                        $.ajax({
+                            url: "/api/rentals/" + button.attr("data-rental-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

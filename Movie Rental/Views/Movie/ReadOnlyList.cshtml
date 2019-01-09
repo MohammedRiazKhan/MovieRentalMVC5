@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Movie_Rental.Models.Movie>
+@{
+    ViewBag.Title = "MovieList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+@if (!Model.Any())
+{
+    <p>No Movies yet</p>
+}
+else
+{
+    <table id="movies" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Movie ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Release Year</th>
+                <th>Available For Rent</th>
+                <th>New Release</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var movie in Model)
+            {
+            <tr>
+                <td>@movie.MovieId</td>
+                <td>@Html.ActionLink(movie.Title, "EditMovie", "Movie", new { id = movie.MovieId }, null)</td>
+                <td>@movie.Description</td>
+                <td>@movie.Genre</td>
+                <td>@movie.Price</td>
+                <td>@movie.ReleaseYear</td>
+                <td>@Html.DisplayFor(modelItem => movie.AvailableForRent)</td>
+                <td>@Html.DisplayFor(modelItem => movie.NewRelease)</td>
+              
+            </tr>
+            }
+
+        </tbody>
+
+
+    </table>
+}
+
+@section scripts
+    {
+    <script>
+
+        $(document).ready(function () {
+
+            var table = $("#movies").DataTable();
+
+           
+        });
+    </script>
+}
+
